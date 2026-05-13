@@ -31,9 +31,7 @@ module LedgerTransactions
     end
 
     def total_for(direction)
-      entries_attributes
-        .select { |entry| entry[:direction] == direction }
-        .sum { |entry| entry[:amount_cents].to_i }
+      entries_attributes.select { |entry| entry[:direction] == direction }.sum { |entry| entry[:amount_cents].to_i }
     end
 
     def debit_total

@@ -21,6 +21,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+  margin-bottom: 32px;
 }
 
 .card {
@@ -88,4 +89,22 @@ body {
 .alert-error {
   background: #fee2e2;
   color: #991b1b;
+}
+
+.transaction-card {
+  margin-top: 32px;
+}
+
+.entries-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.transaction-item {
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: #fafafa;
 }
