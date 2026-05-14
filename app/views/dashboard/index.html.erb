@@ -37,10 +37,16 @@
 
       <ul class="accounts-list">
         <% @accounts.each do |account| %>
-          <li>
-            <strong><%= account.name %></strong>
-            —
-            <%= account.direction.titleize %>
+          <li class="account-item">
+            <div>
+              <strong><%= account.name %></strong>
+              —
+              <%= account.direction.titleize %>
+            </div>
+
+            <div class="account-balance">
+              <%= number_to_currency(account.balance_cents / 100.0) %>
+            </div>
           </li>
         <% end %>
       </ul>
