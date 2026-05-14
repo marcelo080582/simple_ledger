@@ -17,7 +17,6 @@ class LedgerTransactionsController < ApplicationController
   def transaction_params
     params.require(:ledger_transaction).permit(
       :name,
-      :signature,
       entries_attributes: [
         :account_id,
         :direction,

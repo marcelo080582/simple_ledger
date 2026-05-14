@@ -52,8 +52,6 @@ module LedgerTransactions
       debit_total == credit_total
     end
 
-    def
-
     def normalized_entries
       entries_attributes.map do |entry|
         {
@@ -103,9 +101,9 @@ module LedgerTransactions
     def validate_entries!
       raise LedgerErrors::MinimumEntriesRequired, "Transaction must have at least two entries" if entries_attributes.size < 2
 
-      raise LedgerErrors::InvalidTransaction, "Transaction must use different accounts" unless distinct_accounts?
+      raise LedgerErrors::SameAccountEntries, "Transaction must use different accounts" unless distinct_accounts?
 
-      raise LedgerErrors::InvalidTransaction, "Debits and credits must be equal" unless balanced?
+      raise LedgerErrors::UnbalancedTransaction, "Debits and credits must be equal" unless balanced?
     end
 
     def prevent_duplicate_transaction!

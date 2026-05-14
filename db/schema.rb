@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_13_214411) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_14_214823) do
   create_table "accounts", force: :cascade do |t|
     t.integer "balance_cents", default: 0, null: false
     t.datetime "created_at", null: false
@@ -28,6 +28,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_13_214411) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_entries_on_account_id"
     t.index ["ledger_transaction_id"], name: "index_entries_on_ledger_transaction_id"
+    t.check_constraint "amount_cents > 0", name: "entries_amount_cents_positive"
+    t.check_constraint "direction IN ('debit', 'credit')", name: "entries_direction_valid"
   end
 
   create_table "ledger_transactions", force: :cascade do |t|
