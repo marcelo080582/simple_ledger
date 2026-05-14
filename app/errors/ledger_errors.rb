@@ -1,4 +1,8 @@
 module LedgerErrors
-  class UnbalancedTransaction < StandardError; end
-  class MinimumEntriesRequired < StandardError; end
+  class InvalidTransaction < StandardError; end
+
+  class MinimumEntriesRequired < InvalidTransaction; end
+  class UnbalancedTransaction < InvalidTransaction; end
+  class DuplicateTransaction < InvalidTransaction; end
+  class SameAccountEntries < InvalidTransaction; end
 end
