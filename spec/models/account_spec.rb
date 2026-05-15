@@ -6,8 +6,8 @@ RSpec.describe Account, type: :model do
   end
 
   describe "validations" do
+    it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:direction) }
-    it { is_expected.to validate_numericality_of(:balance_cents) }
   end
 
   describe "callbacks" do

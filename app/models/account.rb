@@ -8,15 +8,11 @@ class Account < ApplicationRecord
     credit: "credit"
   }
 
+  validates :name, presence: true
   validates :direction, presence: true
-  validates :balance_cents, numericality: true
 
   def balance_cents
-    if debit?
-      debit_entries_total - credit_entries_total
-    else
-      credit_entries_total - debit_entries_total
-    end
+    normal_balance_cents - opposite_balance_cents
   end
 
   private
@@ -25,11 +21,11 @@ class Account < ApplicationRecord
     throw(:abort)
   end
 
-  def debit_entries_total
-    entries.debit.sum(:amount_cents)
+  def normal_balance_cents
+    entries.where(direction: direction).sum(:amount_cents)
   end
 
-  def credit_entries_total
-    entries.credit.sum(:amount_cents)
+  def opposite_balance_cents
+    entries.where.not(direction: direction).sum(:amount_cents)
   end
 end
