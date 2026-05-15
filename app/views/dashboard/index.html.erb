@@ -20,11 +20,13 @@
       <%= form_with model: Account.new, url: accounts_path, local: true do |form| %>
         <div class="form-group">
           <%= form.label :name %>
+
           <%= form.text_field :name, class: "input", placeholder: "Ex: Cash, Bank, Revenue..." %>
         </div>
 
         <div class="form-group">
           <%= form.label :direction %>
+
           <%= form.select :direction, Account.directions.keys.map { |direction| [direction.titleize, direction] }, {}, class: "input" %>
         </div>
 
@@ -45,7 +47,7 @@
             </div>
 
             <div class="account-balance">
-              <%= number_to_currency(account.balance_cents / 100.0) %>
+              <%= format_money(account.balance_cents) %>
             </div>
           </li>
         <% end %>
@@ -53,55 +55,51 @@
     </div>
   </div>
 
-  <div class="card transaction-card">
+  <div class="card transaction-section">
     <h2 class="card-title">Create Transaction</h2>
 
     <%= form_with url: ledger_transactions_path, scope: :ledger_transaction, local: true do |form| %>
+
       <div class="form-group">
         <%= form.label :name, "Transaction name" %>
+
         <%= form.text_field :name, class: "input", placeholder: "Ex: Sale, Payment..." %>
       </div>
 
       <div class="entries-grid">
-        <div>
-          <h3>Debit entry</h3>
+        <div class="entry-form-card">
+          <h3 class="entry-form-title">Debit entry</h3>
 
           <div class="form-group">
             <%= label_tag "debit_account_id", "Account" %>
-            <%= select_tag "ledger_transaction[entries_attributes][][account_id]",
-                           options_from_collection_for_select(@accounts, :id, :name),
-                           class: "input" %>
+
+            <%= select_tag "ledger_transaction[entries_attributes][][account_id]", options_from_collection_for_select(@accounts, :id, :name), class: "input" %>
           </div>
 
           <%= hidden_field_tag "ledger_transaction[entries_attributes][][direction]", "debit" %>
 
           <div class="form-group">
             <%= label_tag "debit_amount_cents", "Amount cents" %>
-            <%= number_field_tag "ledger_transaction[entries_attributes][][amount_cents]",
-                                 nil,
-                                 class: "input",
-                                 min: 1 %>
+
+            <%= number_field_tag "ledger_transaction[entries_attributes][][amount_cents]", nil, class: "input", min: 1 %>
           </div>
         </div>
 
-        <div>
-          <h3>Credit entry</h3>
+        <div class="entry-form-card">
+          <h3 class="entry-form-title">Credit entry</h3>
 
           <div class="form-group">
             <%= label_tag "credit_account_id", "Account" %>
-            <%= select_tag "ledger_transaction[entries_attributes][][account_id]",
-                           options_from_collection_for_select(@accounts, :id, :name),
-                           class: "input" %>
+
+            <%= select_tag "ledger_transaction[entries_attributes][][account_id]", options_from_collection_for_select(@accounts, :id, :name), class: "input" %>
           </div>
 
           <%= hidden_field_tag "ledger_transaction[entries_attributes][][direction]", "credit" %>
 
           <div class="form-group">
             <%= label_tag "credit_amount_cents", "Amount cents" %>
-            <%= number_field_tag "ledger_transaction[entries_attributes][][amount_cents]",
-                                 nil,
-                                 class: "input",
-                                 min: 1 %>
+
+            <%= number_field_tag "ledger_transaction[entries_attributes][][amount_cents]", nil, class: "input", min: 1 %>
           </div>
         </div>
       </div>
@@ -110,25 +108,43 @@
     <% end %>
   </div>
 
-  <div class="card transaction-card">
+  <div class="card transaction-section">
     <h2 class="card-title">Transactions</h2>
 
     <% if @ledger_transactions.any? %>
       <% @ledger_transactions.each do |ledger_transaction| %>
-        <div class="transaction-item">
-          <strong><%= ledger_transaction.name %></strong>
+        <div class="transaction-card">
+          <div class="transaction-header">
+            <div>
+              <h3 class="transaction-title">
+                <%= ledger_transaction.name %>
+              </h3>
 
-          <ul>
+              <p class="transaction-date">
+                <%= ledger_transaction.created_at.strftime("%d/%m/%Y %H:%M") %>
+              </p>
+            </div>
+          </div>
+
+          <div class="transaction-entries">
             <% ledger_transaction.entries.each do |entry| %>
-              <li>
-                <%= entry.direction.titleize %>
-                —
-                <%= entry.account.name %>
-                —
-                <%= entry.amount_cents %> cents
-              </li>
+              <div class="entry-row">
+                <div class="entry-left">
+                  <span class="entry-badge <%= entry.direction %>">
+                    <%= entry.direction.titleize %>
+                  </span>
+
+                  <span class="entry-account">
+                    <%= entry.account.name %>
+                  </span>
+                </div>
+
+                <div class="entry-amount">
+                  <%= format_money(entry.amount_cents) %>
+                </div>
+              </div>
             <% end %>
-          </ul>
+          </div>
         </div>
       <% end %>
     <% else %>

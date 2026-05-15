@@ -68,13 +68,6 @@ body {
   margin: 0;
 }
 
-.accounts-list li {
-  padding: 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  margin-bottom: 12px;
-}
-
 .alert {
   padding: 16px;
   border-radius: 12px;
@@ -91,7 +84,22 @@ body {
   color: #991b1b;
 }
 
-.transaction-card {
+.account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.account-balance {
+  font-weight: bold;
+  color: #5b3df5;
+}
+
+.transaction-section {
   margin-top: 32px;
 }
 
@@ -99,23 +107,84 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+  margin-bottom: 24px;
 }
 
-.transaction-item {
-  padding: 16px;
+.entry-form-card {
+  background: #fafafa;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  margin-bottom: 16px;
+  padding: 18px;
+}
+
+.entry-form-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.transaction-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
   background: #fafafa;
 }
 
-.account-item {
+.transaction-header {
+  margin-bottom: 16px;
+}
+
+.transaction-title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.transaction-date {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.transaction-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.entry-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.account-balance {
+.entry-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.entry-badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
   font-weight: bold;
-  color: #5b3df5;
+}
+
+.entry-badge.debit {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.entry-badge.credit {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.entry-account {
+  font-weight: 500;
+}
+
+.entry-amount {
+  font-weight: bold;
+  color: #111827;
 }
